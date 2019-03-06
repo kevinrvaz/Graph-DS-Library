@@ -7,9 +7,9 @@ Usage: create an object of the AdjacentMatrix class and call it's methods on the
        example:- 
 
 '''
-from graph import Graph
+from graph_interface.graph import Graph
+from help_ds.priority_dict import priority_dict
 from queue import Queue
-from priority_dict import priority_dict
 
 
 class AdjacentMatrix(Graph):

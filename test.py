@@ -1,10 +1,10 @@
-from adjacent_matrix import AdjacentMatrix
+from representations.adjacent_set import AdjacentSet
 from matrix import matrix
 # import sys
-graph=AdjacentMatrix(300,matrix,directed=False)
-print(f"path between 0 and 292")
-for node in graph.shortest_path_weighted(0,268):
-    print(node)
+# graph=AdjacentMatrix(300,matrix,directed=False)
+# print(f"path between 0 and 292")
+# for node in graph.shortest_path_weighted(0,268):
+    # print(node)
 
 # graph=AdjacentMatrix(5,directed=False)
 # # sys.setrecursionlimit(10000)
@@ -15,3 +15,13 @@ for node in graph.shortest_path_weighted(0,268):
 
 # for node in graph.shortest_path_unweighted(0,4):
     # print(node)
+
+graph=AdjacentSet(5,True)
+graph.add_edge(0,1,2)    
+graph.add_edge(0,2,4)    
+graph.add_edge(2,3,2)    
+graph.add_edge(3,1,1)    
+graph.add_edge(3,4,1)    
+graph.add_edge(1,4,1)
+
+graph.display()
