@@ -19,8 +19,8 @@ class Node(object):
         self.weight_list = {}
 
     def add_edge(self, v, weight):
-        if v == self.vertexId:
-            raise ValueError("vertex cannot be adjacent to itself")
+        # if v == self.vertexId:
+            # raise ValueError("vertex cannot be adjacent to itself")
         self.adjacent_set.add(v)
         self.weight_list[v] = weight
 
@@ -159,3 +159,10 @@ class AdjacentSet(Graph):
         if len(sorted_list) != self.num_vertices:
             raise ValueError("The graph has a cycle")
         return sorted_list
+
+    def minimum_cost(self,source,destination):
+        path=self.shortest_path_weighted(source,destination)
+        min_cost=0
+        for i in range(0,len(path)-1):
+            min_cost+=self.get_edge_weight(path[i],path[i+1])
+        return min_cost   
