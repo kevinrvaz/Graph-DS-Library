@@ -25,3 +25,16 @@ graph.add_edge(3,4,1)
 graph.add_edge(1,4,1)
 
 graph.display()
+
+for node in graph.shortest_path_weighted(2,4):
+    print(node,end=" ")
+print()
+for node in graph.breadth_first_search():
+    print(node,end=" ")
+print()
+for node in graph.depth_first_search():
+    print(node,end=" ")
+print()
+for node in graph.topological_sort():
+    print(node,end=" ")
+print()

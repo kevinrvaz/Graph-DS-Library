@@ -1,3 +1,12 @@
+'''
+Author: Kevin Rohan Vaz
+
+Description: Implements the methods present in the Graph Interface using an adjacency set representation
+
+Usage: create an object of the AdjacentMatrix class and call it's methods on the object.
+       example:- 
+
+'''
 from graph_interface.graph import Graph
 from help_ds.priority_dict import priority_dict
 from queue import Queue
@@ -7,23 +16,21 @@ class Node(object):
     def __init__(self, vertexId):
         self.vertexId = vertexId
         self.adjacent_set = set()
+        self.weight_list = {}
 
     def add_edge(self, v, weight):
         if v == self.vertexId:
             raise ValueError("vertex cannot be adjacent to itself")
-        self.adjacent_set.add((v, weight))
+        self.adjacent_set.add(v)
+        self.weight_list[v] = weight
 
     def get_adjacent_vertices(self):
-        adjacent_vertices = []
-        for vertice, _ in self.adjacent_set:
-            adjacent_vertices.append(vertice)
-        return adjacent_vertices
+        return self.adjacent_set
 
     def get_edge_weight(self, v):
-        for vertice, weight in self.adjacent_set:
-            if vertice == v:
-                return weight
-        return 0
+        if v in self.adjacent_set:
+            return self.weight_list[v]
+        return 1
 
 
 class AdjacentSet(Graph):
@@ -104,7 +111,34 @@ class AdjacentSet(Graph):
         pass
 
     def shortest_path_weighted(self, source, destination):
-        pass
+        distance_table = self._build_table_weighted(source)
+        path = [destination]
+        previous_vertex = distance_table[destination][1]
+        while previous_vertex is not source and previous_vertex is not None:
+            path = [previous_vertex]+path
+            previous_vertex = distance_table[previous_vertex][1]
+        if previous_vertex is None:
+            return []
+        return [source]+path
+
+    def _build_table_weighted(self, source):
+        distance_table = {}
+        for i in range(self.num_vertices):
+            distance_table[i] = (None, None)
+        distance_table[source] = (0, source)
+        priority_queue = priority_dict()
+        priority_queue[source] = 0
+        while len(priority_queue.keys()) > 0:
+            current_vertex = priority_queue.pop_smallest()
+            current_distance = distance_table[current_vertex][0]
+            for neighbor in self.get_adjacent_vertices(current_vertex):
+                distance = self.get_edge_weight(
+                    current_vertex, neighbor) + current_distance
+                neighbor_distance = distance_table[neighbor][0]
+                if neighbor_distance is None or neighbor_distance > distance:
+                    distance_table[neighbor] = (distance, current_vertex)
+                    priority_queue[neighbor] = distance
+        return distance_table
 
     def topological_sort(self):
         queue = Queue()
