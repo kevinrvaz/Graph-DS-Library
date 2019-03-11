@@ -1,5 +1,5 @@
-from representations.adjacent_set import AdjacentSet
-from representations.adjacent_matrix import AdjacentMatrix
+# from representations.adjacent_set import AdjacentSet
+# from representations.adjacent_matrix import AdjacentMatrix
 from matrix import matrix
 # import sys
 # graph=AdjacentMatrix(300,matrix,directed=False)
@@ -40,4 +40,7 @@ for node in graph.topological_sort():
     print(node,end=" ")
 print()
 '''
-      
+from algorithms.graph_algorithms import Graph
+
+graph=Graph(300,matrix=matrix,directed=False)
+graph.display()
