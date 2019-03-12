@@ -6,9 +6,9 @@ import abc
 class GraphAlgorithms(abc.ABC):
     def __init__(self, num_vertices, rep, matrix, directed):
         if rep == "AdjacentMatrix":
-            self.graph = AdjacentMatrix(num_vertices, matrix, directed)
+            self.prop = AdjacentMatrix(num_vertices, matrix, directed)
         elif rep == "AdjacentSet":
-            self.graph = AdjacentSet(num_vertices, directed)
+            self.prop = AdjacentSet(num_vertices, directed)
 
     @abc.abstractmethod
     def breadth_first_search(self, source):

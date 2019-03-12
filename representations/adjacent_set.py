@@ -4,7 +4,6 @@ Author: Kevin Rohan Vaz
 Description: Implements the methods present in the Graph Interface using an adjacency set representation
 
 Usage: create an object of the AdjacentSet class and call it's methods on the object.
-       example:- 
        consider graph as shown below:
        
        (0)******(1)*
@@ -13,11 +12,15 @@ Usage: create an object of the AdjacentSet class and call it's methods on the ob
        *         *  *
        (2)******(3)*
 
-        1. Initialization:
+        1.Initialization:
            graph=AdjacentSet(no_of_vertices,directed)
-
-        2. Calling graph methods
-           graph.breadth_first_search(source) returns [0,1,2,3,4]
+            EXAMPLES:
+            graph.add_edge(0,1,2) #This adds an edge of weight 2 between vertices 0 and 1.
+            graph.get_adjacent_vertices(0) #This returns a list of adjacent vertices to vertex 0.
+            graph.get_edge_weight(0,1) #This returns the weight of the edge between 0 and 1.
+            graph.get_indegree(0) #This returns the indegree of vertex 0.
+            graph.get_outdegree(0) #This returns the outdegree of vertex 0. 
+            graph.display() #This returns the set of edges of the graph with its weights.
 
 '''
 from graph_interface.graph import Graph

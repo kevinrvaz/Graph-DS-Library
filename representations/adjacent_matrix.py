@@ -1,10 +1,27 @@
 '''
-Author: Kevin Rohan Vaz
+Author: excalibur-kvrv, modhtanmay 
 
 Description: Implements the methods present in the Graph Interface using an adjacency matrix representation
 
 Usage: create an object of the AdjacentMatrix class and call it's methods on the object.
-       example:- 
+       consider the graph as Shown below:  
+      
+      (0)******(1)*
+       *         *  *
+       *         *   (4)
+       *         *  *
+       (2)******(3)*
+
+       INITIALIZATION:
+       graph=AdjacentMatrix(num_vertices)
+            EXAMPLES:
+            graph.add_edge(0,1,2) #This adds an edge of weight 2 between vertices 0 and 1.
+            graph.get_adjacent_vertices(0) #This returns a list of adjacent vertices to vertex 0.
+            graph.get_edge_weight(0,1) #This returns the weight of the edge between 0 and 1.
+            graph.get_indegree(0) #This returns the indegree of vertex 0.
+            graph.get_outdegree(0) #This returns the outdegree of vertex 0. 
+            graph.display() #This returns the set of edges of the graph with its weights.
+
 
 '''
 from graph_interface.graph import Graph
