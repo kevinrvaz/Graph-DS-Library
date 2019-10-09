@@ -24,10 +24,20 @@ set_list=data[1:]
 for item in set_list:
     test_list=item[:len(item)-2]
     vertices_list=list(map(int,test_list.split()))
-    for v in range(1,len(vertices_list)-1):
+    for v in range(1,len(vertices_list)-1,2):
         graph_set.add_edge(vertices_list[0],vertices_list[v],vertices_list[v+1])
 
-for v in graph_set.shortest_path_weighted(0,284):
-    print(v)
+'''
+# test data generation
+with open("test.txt","w") as file:
+    for i in range(graph.num_vertices):
+        for j in graph.get_adjacent_vertices(i):
+            file.write(f"{i}--->{j} weight {graph.get_edge_weight(i, j)}\n") 
 
-print(graph_set.minimum_cost(0,284))
+with open("test1.txt","w") as file:
+    for i in range(graph_set.num_vertices):
+        for j in graph_set.get_adjacent_vertices(i):
+            file.write(f"{i}--->{j} weight {graph_set.get_edge_weight(i, j)}\n") 
+'''
+print(graph_set.shortest_path_weighted(0,254))
+    

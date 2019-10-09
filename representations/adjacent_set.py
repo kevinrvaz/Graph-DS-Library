@@ -3,13 +3,27 @@ Author: Kevin Rohan Vaz
 
 Description: Implements the methods present in the Graph Interface using an adjacency set representation
 
-Usage: create an object of the AdjacentMatrix class and call it's methods on the object.
-       example:- 
+Usage: create an object of the AdjacentSet class and call it's methods on the object.
+       consider graph as shown below:
+       
+       (0)******(1)*
+       *         *  *
+       *         *   (4)
+       *         *  *
+       (2)******(3)*
+
+        1.Initialization:
+           graph=AdjacentSet(no_of_vertices,directed)
+            EXAMPLES:
+            graph.add_edge(0,1,2) #This adds an edge of weight 2 between vertices 0 and 1.
+            graph.get_adjacent_vertices(0) #This returns a list of adjacent vertices to vertex 0.
+            graph.get_edge_weight(0,1) #This returns the weight of the edge between 0 and 1.
+            graph.get_indegree(0) #This returns the indegree of vertex 0.
+            graph.get_outdegree(0) #This returns the outdegree of vertex 0. 
+            graph.display() #This returns the set of edges of the graph with its weights.
 
 '''
 from graph_interface.graph import Graph
-from help_ds.priority_dict import priority_dict
-from queue import Queue
 
 
 class Node(object):
@@ -70,99 +84,3 @@ class AdjacentSet(Graph):
         if v >= self.num_vertices or v < 0:
             raise ValueError(f"Cannot access vertex {v}")
         return len(self.get_adjacent_vertices(v))
-
-    def breadth_first_search(self, source=0):
-        queue = Queue()
-        queue.put(source)
-        visit_order = []
-        while not queue.empty():
-            vertex = queue.get()
-            if self._visited[vertex] == 1:
-                continue
-            self._visited[vertex] = 1
-            visit_order.append(vertex)
-            for v in self.get_adjacent_vertices(vertex):
-                if self._visited[v] != 1:
-                    queue.put(v)
-        self._visited = [0]*self.num_vertices
-        return visit_order
-
-    def depth_first_search(self, current=0):
-        self._dfs_util(current)
-        visit_order = self._visit_order
-        self._visit_order = []
-        self._visited = [0]*self.num_vertices
-        return visit_order
-
-    def _dfs_util(self, current):
-        if self._visited[current] == 1:
-            return
-        self._visited[current] = 1
-        self._visit_order.append(current)
-        for v in self.get_adjacent_vertices(current):
-            self._dfs_util(v)
-
-    def display(self):
-        for i in range(self.num_vertices):
-            for j in self.get_adjacent_vertices(i):
-                print(i, "--->", j, "weight", self.get_edge_weight(i, j))
-
-    def shortest_path_unweighted(self, source, destination):
-        pass
-
-    def shortest_path_weighted(self, source, destination):
-        distance_table = self._build_table_weighted(source)
-        path = [destination]
-        previous_vertex = distance_table[destination][1]
-        while previous_vertex is not source and previous_vertex is not None:
-            path = [previous_vertex]+path
-            previous_vertex = distance_table[previous_vertex][1]
-        if previous_vertex is None:
-            return []
-        return [source]+path
-
-    def _build_table_weighted(self, source):
-        distance_table = {}
-        for i in range(self.num_vertices):
-            distance_table[i] = (None, None)
-        distance_table[source] = (0, source)
-        priority_queue = priority_dict()
-        priority_queue[source] = 0
-        while len(priority_queue.keys()) > 0:
-            current_vertex = priority_queue.pop_smallest()
-            current_distance = distance_table[current_vertex][0]
-            for neighbor in self.get_adjacent_vertices(current_vertex):
-                distance = self.get_edge_weight(
-                    current_vertex, neighbor) + current_distance
-                neighbor_distance = distance_table[neighbor][0]
-                if neighbor_distance is None or neighbor_distance > distance:
-                    distance_table[neighbor] = (distance, current_vertex)
-                    priority_queue[neighbor] = distance
-        return distance_table
-
-    def topological_sort(self):
-        queue = Queue()
-        indegree_map = {}
-        for i in range(self.num_vertices):
-            indegree_map[i] = self.get_indegree(i)
-            if indegree_map[i] == 0:
-                queue.put(i)
-
-        sorted_list = []
-        while not queue.empty():
-            vertex = queue.get()
-            sorted_list.append(vertex)
-            for v in self.get_adjacent_vertices(vertex):
-                indegree_map[v] -= 1
-                if indegree_map[v] == 0:
-                    queue.put(v)
-        if len(sorted_list) != self.num_vertices:
-            raise ValueError("The graph has a cycle")
-        return sorted_list
-
-    def minimum_cost(self,source,destination):
-        path=self.shortest_path_weighted(source,destination)
-        min_cost=0
-        for i in range(0,len(path)-1):
-            min_cost+=self.get_edge_weight(path[i],path[i+1])
-        return min_cost   
